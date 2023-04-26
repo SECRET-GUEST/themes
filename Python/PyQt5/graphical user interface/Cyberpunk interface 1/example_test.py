@@ -31,10 +31,21 @@ class MyApp(cypunk1Window):
 
         self.central_widget.setLayout(layout)
 
+        
+        self.msg_box = Cypunk1MessageBox(stylesheet_path=self.stylesheet_path) #Here your argument
+
+        self.msg_box.setText("My first popup") 
+        
+        self.close_button_widget.hide() #Here you hide the close button
+        
+        result = self.msg_box.exec_()
+        
+        if result == QMessageBox.Ok:
+            self.close_button_widget.show() #Here you can show again
 
 
-if __name__ == "__main__":
+if __name__ == '__main__'  :  
     app = QApplication(sys.argv)
-    my_app = MyApp()
-    my_app.show()
+    window = YOUR_APP_NAME(stylesheet_path="style/style1.txt") #Here your argument at the entry point
+    window.show()
     sys.exit(app.exec_())
