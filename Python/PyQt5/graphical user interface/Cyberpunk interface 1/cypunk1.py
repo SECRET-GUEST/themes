@@ -112,9 +112,9 @@
 #| | \| ___]  |  |  | |___ |___ |  |  |  | |__| | \|
         
 
-from PyQt5.QtWidgets import  QMainWindow, QWidget, QPushButton, QFrame, QLabel,QMessageBox,QVBoxLayout
-from PyQt5.QtGui import QIcon, QPainterPath,QRegion,QPainter, QColor,QPainterPath
-from PyQt5.QtCore import Qt, QPoint,QEvent
+from PyQt5.QtWidgets import  QMainWindow,QApplication, QWidget, QPushButton, QFrame, QLabel,QMessageBox,QVBoxLayout
+from PyQt5.QtGui import QIcon, QPainterPath,QRegion,QPainter, QColor,QPainterPath,QBrush,QPalette
+from PyQt5.QtCore import Qt, QPoint
 
 
 #___  ____ _ _ _ ____ ____    ___  _    ____ _  _ ___
@@ -177,7 +177,7 @@ class cypunk1Window(QMainWindow):
         self.btn_minimize = btn_minimize  
         self.btn_show = btn_show  
 
-        # Set Layout for the title (you can add self.layout.addWidget(YOUR_WIDGET) directly in other pages  )
+        # Set Layout for the title (you can add self.vlay_cypunk1.addWidget(YOUR_WIDGET) directly in other pages  )
         self.init_Vlayout()
 
 
@@ -250,13 +250,13 @@ class cypunk1Window(QMainWindow):
 
 
     def init_Vlayout(self):
-        # Créez un QVBoxLayout pour le widget central
-        self.layout = QVBoxLayout(self.centralWidget())
-        self.layout.setContentsMargins(0, 30, 0, 0)
+        # Apply a vertical layout to the central widget
+        self.vlay_cypunk1 = QVBoxLayout(self.centralWidget())
+        self.vlay_cypunk1.setContentsMargins(0, 30, 0, 0)
 
     def Vlayout(self, widget):
         # Add the given widget to the layout
-        self.layout.addWidget(widget)
+        self.vlay_cypunk1.addWidget(widget)
 
 
     def moveEvent(self, event):
@@ -302,13 +302,14 @@ class cypunk1Window(QMainWindow):
     def close_application(self):
         self.close()  # close the application window, so it has to be used in main window.
 
+
 #_  _ ____ ____ ____ ____ ____ ____    ___  ____ _  _ 
 #|\/| |___ [__  [__  |__| | __ |___    |__] |  |  \/  
 #|  | |___ ___] ___] |  | |__] |___    |__] |__| _/\_ 
                               
                                                      
 class Cypunk1MessageBox(QMessageBox):
-    def __init__(self,stylesheet_path=None, *args, **kwargs):
+    def __init__(self,stylesheet_path=None, *args, **kwargs): # pass stylesheet as argument
         super().__init__(*args, **kwargs)
 
         self.mbGui(stylesheet_path)  
@@ -328,12 +329,16 @@ class Cypunk1MessageBox(QMessageBox):
    
 
 
+    # This function is similar to the Hexagon function you saw before, but
+    # here you can also assign and use colours for the message box
     def paintEvent(self, event):
+        # Create a QPainter object to paint on the widget
         painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        painter.setPen(Qt.NoPen)
-        painter.setBrush(QColor("#505050"))
 
+        # Set the brush color to the background color of the widget
+        painter.setBrush(self.palette().brush(QPalette.Background))
+
+        # Create a QPainterPath object to define the shape of the widget
         path = QPainterPath()
         path.moveTo(30, 0)
         path.lineTo(self.width() - 20, 0)
@@ -343,10 +348,17 @@ class Cypunk1MessageBox(QMessageBox):
         path.lineTo(20, self.height())
         path.lineTo(0, self.height() - 20)
         path.lineTo(0, 0)
+
+        # Close the subpath to complete the shape
         path.closeSubpath()
 
+        # Draw the shape using the QPainter object
         painter.drawPath(path)
-        
+
+
+
+
+#Functions to move the window by holding left mouse button
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.dragPosition = event.globalPos() - self.frameGeometry().topLeft()
