@@ -1,15 +1,13 @@
 QFrame#centralFrame {
-    background-color: rgba(64, 64, 64, 80);
+    background-color: rgba(33, 33, 33, 200);
     font-family: "Uncial Antiqua";
     font-size: 14px;
 
 }
 
 
-
-
 QPushButton {
-    background-color: rgba(64, 64, 64, 180);
+    background-color: rgba(40, 40, 40, 180);
     color: white;
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -19,45 +17,20 @@ QPushButton {
 }
 
 QPushButton:hover {
-    background-color: rgba(90, 90, 90, 180);
+    background-color: rgba(60, 60, 60, 180);
+	color : rgba(30, 255, 60, 180);
 }
 
 QPushButton:pressed {
-    background-color: rgba(50, 50, 50, 180);
+    background-color: rgba(28, 28, 28, 180);
 }
 
 
-
-
-QSlider::groove:horizontal {
-    background-color: rgba(64, 64, 64, 80);
-    height: 8px;
-    border-radius: 4px;
-}
-
-QSlider::handle:horizontal {
-    background-color: rgba(50, 255, 100, 200);
-    width: 18px;
-    height: 18px;
-    border-radius: 9px;
-    margin: -5px 0px -5px 0px;
-}
-
-QSlider::handle:horizontal:hover {
-    background-color: rgba(90, 255, 140, 200);
-}
-
-
-
-QDialog {
-    background-color: rgb(50, 50, 50);
-    color: white;
-    font-family: "Uncial Antiqua";
-    font-size: 14px;
-    border-radius: 5px;
-    padding: 2px;
-} 
-
+QLabel {
+    color: rgba(50, 255, 100, 200);
+    font-family: "Cascadia Code";
+    font-size: 13px;
+}  
 
 
 QLabel#title {
@@ -67,63 +40,27 @@ QLabel#title {
 }  
 
 
-QLabel#title2 {
-    color: rgba(50, 255, 100, 200);
-    font-family: "Uncial Antiqua";
-    font-size: 14px;
-}  
+Cypunk1MessageBox {
+    background-color: #505050;
+
+}
 
 
-
-QLabel#info {
-    color: rgba(50, 255, 100, 200);
-    font-family: "Cascadia Code";
-    font-size: 13px;
-}  
-
-
-QLabel#infoxy {
-    color: rgba(50, 255, 100, 200);
-    font-family: "Rivanna";
-    font-size: 18px;
-}  
-
-QSpinBox {
+QMessageBox QPushButton {
     background-color: rgba(64, 64, 64, 180);
-    color: #00FFAA;
-    border: 2px solid rgba(50, 255, 100, 200);
-    border-radius: 5px;
+    color: white;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
     padding: 5px;
+    font-family: "Cascadia Code";
+    font-size: 15px;
 }
 
-QSpinBox::up-button {
-    subcontrol-origin: border;
-    subcontrol-position: top right;
-    width: 20px;
-    background-color: rgba(50, 255, 100, 200);
-    border-left: 1px solid rgba(50, 255, 100, 200);
-    border-top-right-radius: 5px;
+QMessageBox QPushButton:hover {
+    background-color: rgba(90, 90, 90, 180);
 }
 
-QSpinBox::up-arrow {
-    width: 5px;
-    height: 5px;
-    border-left: 1px solid white;
-    border-bottom: 1px solid white;
+QMessageBox QPushButton:pressed {
+    background-color: rgba(50, 50, 50, 180);
 }
 
-QSpinBox::down-button {
-    subcontrol-origin: border;
-    subcontrol-position: bottom right;
-    width: 20px;
-    background-color: rgba(50, 255, 100, 200);
-    border-left: 1px solid rgba(50, 255, 100, 200);
-    border-bottom-right-radius: 5px;
-}
-
-QSpinBox::down-arrow {
-    width: 5px;
-    height: 5px;
-    border-left: 1px solid white;
-    border-top: 1px solid white;
-}
