@@ -39,6 +39,10 @@ from here : https://github.com/SECRET-GUEST/Layer-one
 - Minimize button <
 - Resizable <
 
+## Resize 
+
+Actually you only can resize by the corner right, I'll update it soon.
+
 ## Usage:
 
 To use this class, import it into your project and create a new class that inherits from Cypunk2Window. In the new class, customize the window appearance by passing the required parameters (title, window size, button icons, and stylesheet) to the `__init__()` method of the parent class.
