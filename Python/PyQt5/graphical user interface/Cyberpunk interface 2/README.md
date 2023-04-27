@@ -17,7 +17,8 @@ Python version : 3.10 +
 
 # Description
 
-![image](https://user-images.githubusercontent.com/92639080/234392747-66b82440-04fb-4c0f-88fd-a11411a9edb5.png)
+![image](https://user-images.githubusercontent.com/92639080/234865653-c0fa1626-682f-43eb-b45b-d878d8ad8ed2.png)
+
 
 Cypunk1Window is a custom window class based on QMainWindow for PyQt5, allowing you to create a hexagonal window with custom buttons to minimize, close, and show the window. This class also enables you to apply custom styles to your window.
 
@@ -26,7 +27,7 @@ from here : https://github.com/SECRET-GUEST/Layer-one
 ###### The style script and images are just example
 
 
-[ Previous : Cyberpunk Interface 1](https://github.com/SECRET-GUEST/themes/tree/main/Python/PyQt5/graphical%20user%20interface/Cyberpunk%20interface%201)
+[< Previous : Cyberpunk Interface 1](https://github.com/SECRET-GUEST/themes/tree/main/Python/PyQt5/graphical%20user%20interface/Cyberpunk%20interface%201)
 
 
 ## Main Features:
@@ -35,7 +36,8 @@ from here : https://github.com/SECRET-GUEST/Layer-one
 - Custom buttons to minimize, close, and show the window
 - Support for stylesheets to customize appearance
 - Pop up customised 
-
+- Minimize button
+- Resizable
 
 ## Usage:
 
