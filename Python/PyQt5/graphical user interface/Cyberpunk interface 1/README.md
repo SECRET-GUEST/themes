@@ -24,6 +24,7 @@ from here : https://github.com/SECRET-GUEST/Layer-one
 
 ###### The style script and images are just example
 
+[Next Cyberpunk Interface 2 >](https://github.com/SECRET-GUEST/themes/edit/main/Python/PyQt5/graphical%20user%20interface/Cyberpunk%20interface%202)
 
 ## Main Features:
 - Hexagonal window shape
