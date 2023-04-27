@@ -112,10 +112,10 @@
 #| | \| ___]  |  |  | |___ |___ |  |  |  | |__| | \|
         
 
-from PyQt5.QtWidgets import  QMainWindow,QApplication, QWidget, QPushButton, QFrame, QLabel,QMessageBox,QVBoxLayout
-from PyQt5.QtGui import QIcon, QPainterPath,QRegion,QPainter, QColor,QPainterPath,QBrush,QPalette
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QFrame, QLabel, QMessageBox, QVBoxLayout, QSizeGrip,QRubberBand
 
+from PyQt5.QtGui import QIcon, QPainterPath, QRegion, QPainter, QPainterPath, QPalette
+from PyQt5.QtCore import Qt, QPoint, QSize
 
 #___  ____ _ _ _ ____ ____    ___  _    ____ _  _ ___
 #|__] |  | | | | |___ |__/    |__] |    |__| |\ |  |
@@ -123,6 +123,31 @@ from PyQt5.QtCore import Qt, QPoint
                 
 
 #OPENING | https://www.youtube.com/watch?v=_85LaeTCtV8 :3
+
+
+
+class SizeGrip(QRubberBand):
+    def __init__(self, parent):
+        super().__init__(QRubberBand.Rectangle, parent)
+        self.setFixedSize(10, 10)
+        self.setWindowFlags(Qt.SubWindow)
+        self.setCursor(Qt.SizeFDiagCursor)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.mousePos = event.globalPos()
+            self.parentMousePos = self.parent().mapToGlobal(QPoint())
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.LeftButton:
+            diff = event.globalPos() - self.mousePos
+            newWidth = max(self.parent().minimumWidth(), self.parent().width() + diff.x())
+            newHeight = max(self.parent().minimumHeight(), self.parent().height() + diff.y())
+            newSize = QSize(newWidth, newHeight)
+            self.parent().resize(newSize)
+            event.accept()
+
 
 
 
@@ -170,6 +195,7 @@ class cypunk1Window(QMainWindow):
         self.mwgui(title, window_size, btn_close, btn_minimize, btn_show, stylesheet_path)
 
 
+
     # Graphical user interface of main window
     def mwgui(self, title, window_size, btn_close, btn_minimize, btn_show, stylesheet_path):
         self.title = title  # initialize window title in a variable that can be used in another page
@@ -181,29 +207,36 @@ class cypunk1Window(QMainWindow):
         self.init_Vlayout()
 
 
+
         #Load stylesheet if available
         if stylesheet_path:
             with open(stylesheet_path, "r") as file:
                 stylesheet = file.read()
                 self.setStyleSheet(stylesheet)  # set stylesheet for the window
 
-        self.minimize_icon = QIcon(btn_minimize)  
-        self.show_icon = QIcon(btn_show)  
+
+        self.minimize_icon = QIcon(btn_minimize)
+        self.show_icon = QIcon(btn_show)
 
         width, height = map(int, window_size.split("x"))  # parse window size from string
+
+
 
         self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)  # set window flags
         self.setAttribute(Qt.WA_NoSystemBackground, True)  # set widget attribute for no system background
         self.setAttribute(Qt.WA_TranslucentBackground, True)  # set widget attribute for translucent background
 
+
+
         self.central_widget = QFrame()  # create a central widget to let set the rgba(transparency) in your other page
-        self.setFixedSize(width, height)  # set fixed size for the window
-        self.setCentralWidget(self.central_widget)  
-        self.central_widget.setObjectName("centralFrame")  
+        self.setMinimumSize(width, height)  # set minimum size for the window (updated line)
+        self.setCentralWidget(self.central_widget)
 
-        self.set_hexagon_shape()  # set hexagonal shape of the window
 
-        self.title_bar = cypunkTitle1(self)  # create title bar widget
+
+
+        # create title bar widget
+        self.title_bar = cypunkTitle1(self)  
         self.title_bar.setGeometry(0, 0, self.width(), 30)  # set geometry for title bar widget
 
         self.hide_button = QPushButton(self.title_bar)  # create minimize button
@@ -211,6 +244,7 @@ class cypunk1Window(QMainWindow):
         #Use this to minimize the window with an image
         if btn_minimize:
             self.hide_button.setIcon(QIcon(btn_minimize)) 
+
 
         self.hide_button.setGeometry(0, 5, 30, 20) 
         self.hide_button.setStyleSheet("background-color: transparent;") 
@@ -223,11 +257,12 @@ class cypunk1Window(QMainWindow):
 
 
 
+
         #The close button appart from the window
         self.close_button = QPushButton(self.title_bar)  # create close button
         if btn_close:
             self.close_button.setIcon(QIcon(btn_close))  
-        self.close_button.setGeometry(width - 30, 5, 20, 20) 
+        self.close_button.setGeometry(width - 30, 5, 20, 20)         
         self.close_button.setStyleSheet("background-color: transparent;")  
         self.close_button.clicked.connect(self.close_application) 
 
@@ -249,10 +284,37 @@ class cypunk1Window(QMainWindow):
 
 
 
+
+
+        # Element to resize window by dragging the right corner
+        self.resizeGrip = SizeGrip(self)
+        self.resizeGrip.setGeometry(self.width() - 10, self.height() - 10, 10, 10)
+        self.resizeGrip.lower()
+
+        # Add size grip
+        self.size_grip = QSizeGrip(self.central_widget)
+        self.size_grip.setGeometry(self.width() - 20, self.height() - 20, 20, 20)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.resizeGrip.setGeometry(self.width() - 10, self.height() - 10, 10, 10)
+        self.size_grip.setGeometry(self.width() - 20, self.height() - 20, 20, 20)
+        self.set_hexagon_shape()
+
+        # move the close button widget with the window
+        new_pos = self.mapToGlobal(QPoint(self.width() - 30, 5))
+        self.close_button_widget.move(new_pos)
+
+
+
+
+
+
     def init_Vlayout(self):
         # Apply a vertical layout to the central widget
         self.vlay_cypunk1 = QVBoxLayout(self.centralWidget())
         self.vlay_cypunk1.setContentsMargins(0, 30, 0, 0)
+
 
     def Vlayout(self, widget):
         # Add the given widget to the layout
@@ -260,9 +322,11 @@ class cypunk1Window(QMainWindow):
 
 
     def moveEvent(self, event):
-        # Keep the close button near of the windwo
+        super().moveEvent(event)
         new_pos = self.mapToGlobal(QPoint(self.width() - 10, 0))
         self.close_button_widget.move(new_pos)
+
+
 
 
     def set_hexagon_shape(self):
@@ -282,6 +346,9 @@ class cypunk1Window(QMainWindow):
         region = QRegion(path.toFillPolygon().toPolygon())
         self.setMask(region)
 
+
+
+
     def toggle_window(self):
         if self.central_widget.isVisible():  # check if central widget is visible
             # hide central widget, title label, and close button widget
@@ -299,8 +366,12 @@ class cypunk1Window(QMainWindow):
 
 
 
+
+
     def close_application(self):
         self.close()  # close the application window, so it has to be used in main window.
+
+
 
 
 #_  _ ____ ____ ____ ____ ____ ____    ___  ____ _  _ 
