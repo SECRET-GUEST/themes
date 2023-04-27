@@ -126,32 +126,6 @@ from PyQt5.QtCore import Qt, QPoint, QSize
 
 
 
-class SizeGrip(QRubberBand):
-    def __init__(self, parent):
-        super().__init__(QRubberBand.Rectangle, parent)
-        self.setFixedSize(10, 10)
-        self.setWindowFlags(Qt.SubWindow)
-        self.setCursor(Qt.SizeFDiagCursor)
-
-    def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.mousePos = event.globalPos()
-            self.parentMousePos = self.parent().mapToGlobal(QPoint())
-            event.accept()
-
-    def mouseMoveEvent(self, event):
-        if event.buttons() == Qt.LeftButton:
-            diff = event.globalPos() - self.mousePos
-            newWidth = max(self.parent().minimumWidth(), self.parent().width() + diff.x())
-            newHeight = max(self.parent().minimumHeight(), self.parent().height() + diff.y())
-            newSize = QSize(newWidth, newHeight)
-            self.parent().resize(newSize)
-            event.accept()
-
-
-
-
-
 #_  _ ____ _  _ ____    ____ ___  ___     _ _ _ _ ___ _  _    ___ _ ___ _    ____ 
 #|\/| |  | |  | |___    |__| |__] |__]    | | | |  |  |__|     |  |  |  |    |___ 
 #|  | |__|  \/  |___    |  | |    |       |_|_| |  |  |  |     |  |  |  |___ |___ 
@@ -281,31 +255,6 @@ class cypunk1Window(QMainWindow):
 
         # Show the close button widget
         self.close_button_widget.show()
-
-
-
-
-
-        # Element to resize window by dragging the right corner
-        self.resizeGrip = SizeGrip(self)
-        self.resizeGrip.setGeometry(self.width() - 10, self.height() - 10, 10, 10)
-        self.resizeGrip.lower()
-
-        # Add size grip
-        self.size_grip = QSizeGrip(self.central_widget)
-        self.size_grip.setGeometry(self.width() - 20, self.height() - 20, 20, 20)
-
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-        self.resizeGrip.setGeometry(self.width() - 10, self.height() - 10, 10, 10)
-        self.size_grip.setGeometry(self.width() - 20, self.height() - 20, 20, 20)
-        self.set_hexagon_shape()
-
-        # move the close button widget with the window
-        new_pos = self.mapToGlobal(QPoint(self.width() - 30, 5))
-        self.close_button_widget.move(new_pos)
-
-
 
 
 
