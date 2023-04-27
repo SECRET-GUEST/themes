@@ -31,7 +31,7 @@ from here : https://github.com/SECRET-GUEST/Layer-one
 - Custom buttons to minimize, close, and show the window
 - Support for stylesheets to customize appearance
 - Pop up customised 
-- Can be resized
+
 
 ## Usage:
 
